@@ -86,11 +86,11 @@ static void move_down(struct waypoint_state *state, double value) {
     draw(state);
 }
 
-static void click(struct waypoint_state *state) {
-    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), BTN_LEFT,
+static void click(struct waypoint_state *state, uint btn) {
+    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
         WL_POINTER_BUTTON_STATE_PRESSED);
     zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
-    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), BTN_LEFT,
+    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
         WL_POINTER_BUTTON_STATE_RELEASED);
     zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
 }
@@ -248,7 +248,22 @@ static void wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
         break;
     case XKB_KEY_Return:
         update_pointer(seat->state);
-        click(seat->state);
+        click(seat->state, BTN_LEFT);
+        quit(seat->state);
+        break;
+    case XKB_KEY_1:
+        update_pointer(seat->state);
+        click(seat->state, BTN_LEFT);
+        quit(seat->state);
+        break;
+    case XKB_KEY_2:
+        update_pointer(seat->state);
+        click(seat->state, BTN_MIDDLE);
+        quit(seat->state);
+        break;
+    case XKB_KEY_3:
+        update_pointer(seat->state);
+        click(seat->state, BTN_RIGHT);
         quit(seat->state);
         break;
     }
