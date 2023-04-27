@@ -21,6 +21,8 @@
 
 static void draw(struct waypoint_state *state);
 
+int retcode;
+
 static uint32_t time_ms(void) {
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
@@ -248,22 +250,47 @@ static void wl_keyboard_key(void *data, struct wl_keyboard *wl_keyboard,
         break;
     case XKB_KEY_Return:
         update_pointer(seat->state);
-        click(seat->state, BTN_LEFT);
+        retcode = 0;
         quit(seat->state);
         break;
     case XKB_KEY_1:
         update_pointer(seat->state);
-        click(seat->state, BTN_LEFT);
+        retcode = 1; // LEFT
         quit(seat->state);
         break;
     case XKB_KEY_2:
         update_pointer(seat->state);
-        click(seat->state, BTN_MIDDLE);
+        retcode = 2; // MIDDLE
         quit(seat->state);
         break;
     case XKB_KEY_3:
         update_pointer(seat->state);
-        click(seat->state, BTN_RIGHT);
+        retcode = 3; // RIGHT
+        quit(seat->state);
+        break;
+    case XKB_KEY_4:
+        update_pointer(seat->state);
+        retcode = 4; // SIDE
+        quit(seat->state);
+        break;
+    case XKB_KEY_5:
+        update_pointer(seat->state);
+        retcode = 5; // XTRA
+        quit(seat->state);
+        break;
+    case XKB_KEY_6:
+        update_pointer(seat->state);
+        retcode = 6; // FORWARD
+        quit(seat->state);
+        break;
+    case XKB_KEY_7:
+        update_pointer(seat->state);
+        retcode = 7; // BACK
+        quit(seat->state);
+        break;
+    case XKB_KEY_8:
+        update_pointer(seat->state);
+        retcode = 8; // TASK
         quit(seat->state);
         break;
     }
@@ -475,6 +502,8 @@ static void draw(struct waypoint_state *state) {
 }
 
 int main(void) {
+    retcode = 0;
+
     struct waypoint_state state = {
         .grid_size = 2,
         .color0 = 0xff000000,
@@ -582,4 +611,6 @@ int main(void) {
     state.running = true;
     while (state.running && wl_display_dispatch(state.wl_display) != -1) {
     }
+
+    return retcode;
 }
