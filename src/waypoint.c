@@ -30,12 +30,12 @@ static uint32_t time_ms(void) {
 }
 
 static void update_pointer(struct waypoint_state *state) {
-    zwlr_virtual_pointer_v1_motion_absolute(
-        state->wlr_virtual_pointer, time_ms(),
-        (state->output->width * state->x) + (state->output->width * state->width / 2),
-        (state->output->height * state->y) + (state->output->height * state->height / 2),
-        state->output->width, state->output->height);
-    zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
+    //zwlr_virtual_pointer_v1_motion_absolute(
+    //    state->wlr_virtual_pointer, time_ms(),
+    //    (state->output->width * state->x) + (state->output->width * state->width / 2),
+    //    (state->output->height * state->y) + (state->output->height * state->height / 2),
+    //    state->output->width, state->output->height);
+    //zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
 }
 
 static void cut_left(struct waypoint_state *state, double value) {
@@ -89,12 +89,12 @@ static void move_down(struct waypoint_state *state, double value) {
 }
 
 static void click(struct waypoint_state *state, uint btn) {
-    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
-        WL_POINTER_BUTTON_STATE_PRESSED);
-    zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
-    zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
-        WL_POINTER_BUTTON_STATE_RELEASED);
-    zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
+    //zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
+    //    WL_POINTER_BUTTON_STATE_PRESSED);
+    //zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
+    //zwlr_virtual_pointer_v1_button(state->wlr_virtual_pointer, time_ms(), btn,
+    //    WL_POINTER_BUTTON_STATE_RELEASED);
+    //zwlr_virtual_pointer_v1_frame(state->wlr_virtual_pointer);
 }
 
 static void quit(struct waypoint_state *state) {
@@ -601,9 +601,9 @@ int main(void) {
     zwlr_layer_surface_v1_add_listener(
         state.wlr_layer_surface, &wlr_layer_surface_listener, &state);
 
-    state.wlr_virtual_pointer =
-        zwlr_virtual_pointer_manager_v1_create_virtual_pointer_with_output(
-            state.wlr_virtual_pointer_manager, NULL, output->wl_output);
+    //state.wlr_virtual_pointer =
+    //    zwlr_virtual_pointer_manager_v1_create_virtual_pointer_with_output(
+    //        state.wlr_virtual_pointer_manager, NULL, output->wl_output);
 
     wl_surface_commit(state.wl_surface);
     wl_display_roundtrip(state.wl_display);
@@ -611,6 +611,13 @@ int main(void) {
     state.running = true;
     while (state.running && wl_display_dispatch(state.wl_display) != -1) {
     }
+
+    //fprintf(stdout, "%d %d\n",
+    //        (int)(((state.output->width * state.x) + (state.output->width * state.width / 2)) * state.output->scale_factor),
+    //        (int)(((state.output->height * state.y) + (state.output->height * state.height / 2)) * state.output->scale_factor));
+    fprintf(stdout, "%d %d\n",
+            (int)((state.output->width * state.x) + (state.output->width * state.width / 2)),
+            (int)((state.output->height * state.y) + (state.output->height * state.height / 2)));
 
     return retcode;
 }
